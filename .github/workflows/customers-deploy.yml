@@ -1,14 +1,16 @@
 name: Deploy Customers to Azure Spring Apps
-on: [push]
-  branches:
-    - main
-  paths:
-    - 'spring-petclinic-api-gateway/**'
-    
- env:
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'spring-petclinic-api-gateway/**'
+      
+env:
   AZURE_SUBSCRIPTION: 799c12ba-353c-44a1-883d-84808ebb2216 # customize this
-  SPRING_APPS_SERVICE: yuchensp # customize this
-  KEYVAULT: yuchenkv # customize this
+  SPRING_APPS_SERVICE: petclinic-spring-apps # customize this
+  KEYVAULT: spring-apps-vault # customize this
   # ==== APPS ====:
   API_GATEWAY: api-gateway
   # ==== JARS ====:
@@ -61,7 +63,7 @@ jobs:
       with:
         azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
         action: deploy
-        service-name: ${{ env.SPRING_CLOUD_SERVICE }}
+        service-name: ${{ env.SPRING_APPS_SERVICE }}
         app-name: ${{ env.API_GATEWAY }}
         use-staging-deployment: false
         package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
