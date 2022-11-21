@@ -1,4 +1,4 @@
-name: Deploy Customers to Azure Spring Apps
+name: Deploy api-gateway to Azure Spring Apps
 on:
   workflow_dispatch:
   push:
