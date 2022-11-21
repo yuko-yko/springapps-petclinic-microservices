@@ -8,7 +8,7 @@ on:
       - 'spring-petclinic-api-gateway/**'
       
 env:
-  AZURE_SUBSCRIPTION: 799c12ba-353c-44a1-883d-84808ebb2216 # customize this
+  AZURE_SUBSCRIPTION: c1d1be4e-2f5c-4bbc-ab97-a8e17b4b3cc6 # customize this
   SPRING_APPS_SERVICE: petclinic-spring-apps # customize this
   KEYVAULT: spring-apps-vault # customize this
   # ==== APPS ====:
