@@ -86,7 +86,7 @@ jobs:
     - name: Check the deployed service health check
       uses: jtalk/url-health-check-action@v2
       with:
-        url: https://${{ steps.get-endpoint.outputs.app-url }}/actuator/health
+        url: ${{ steps.get-endpoint.outputs.app-url }}/actuator/health
         follow-redirect: true
         max-attempts: 10
         retry-delay: 10s
