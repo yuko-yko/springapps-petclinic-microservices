@@ -17,7 +17,7 @@ env:
   API_GATEWAY_JAR: spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
 
 jobs:
-  :
+  staging:
     runs-on: ubuntu-latest
     steps:
     - name: Login with Key Vault SP
@@ -59,38 +59,28 @@ jobs:
       run: |
         mvn clean package -DskipTests -Denv=cloud
       
-  staging:
-      name: "Staging (Blue)"
-      needs: build
-      steps:
-      # Login to Azure with Service Principal
-      - name: "Azure Login"
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: "Deploy to Staging"
+      id: deploy-to-springapps
+      uses: Azure/spring-cloud-deploy@v1
+      with:
+          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+          action: deploy
+          service-name: ${{ env.SPRING_APPS_SERVICE }}
+          app-name: ${{ env.API_GATEWAY }}
+          use-staging-deployment: true
+          package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
+          jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql
 
-      - name: "Deploy to Staging"
-        id: deploy-to-springapps
-        uses: Azure/spring-cloud-deploy@v1
-        with:
-            azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
-            action: deploy
-            service-name: ${{ env.SPRING_APPS_SERVICE }}
-            app-name: ${{ env.API_GATEWAY }}
-            use-staging-deployment: true
-            package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
-            jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql
+    - name: "Get Endpoint"
+      id: get-endpoint      
+      run: |
+        run: echo "app-url=$(az spring show -n ${{ env.SPRING_APPS_SERVICE }} --query "[properties.fqdn]" --output tsv)" >> $GITHUB_OUTPUT
 
-      - name: "Get Endpoint"
-        id: get-endpoint      
-        run: |
-          run: echo "app-url=$(az spring show -n ${{ env.SPRING_APPS_SERVICE }} --query "[properties.fqdn]" --output tsv)" >> $GITHUB_OUTPUT
-
-      - name: Check the deployed service health check
-        uses: jtalk/url-health-check-action@v2
-        with:
-          url: ${{ steps.get-endpoint.outputs.app-url }}/api/customer/actuator/health
-          follow-redirect: true
-          max-attempts: 60
-          retry-delay: 10s
-          retry-all: true
+    - name: Check the deployed service health check
+      uses: jtalk/url-health-check-action@v2
+      with:
+        url: ${{ steps.get-endpoint.outputs.app-url }}/api/customer/actuator/health
+        follow-redirect: true
+        max-attempts: 60
+        retry-delay: 10s
+        retry-all: true
