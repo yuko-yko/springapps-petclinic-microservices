@@ -75,7 +75,6 @@ jobs:
       id: get-endpoint      
       run: |
         run: 
-          az config set extension.use_dynamic_install=yes_without_prompt
           az extension add --name spring
           echo "app-url=$(az spring show -n ${{ env.SPRING_APPS_SERVICE }} --query "[properties.fqdn]" --output tsv)" >> $GITHUB_OUTPUT
 
