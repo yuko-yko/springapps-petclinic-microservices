@@ -17,7 +17,7 @@ env:
   API_GATEWAY_JAR: spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
 
 jobs:
-  build:
+  :
     runs-on: ubuntu-latest
     steps:
     - name: Login with Key Vault SP
@@ -62,7 +62,6 @@ jobs:
   staging:
       name: "Staging (Blue)"
       needs: build
-      runs-on: ubuntu-latest
       steps:
       # Login to Azure with Service Principal
       - name: "Azure Login"
