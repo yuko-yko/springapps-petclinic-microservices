@@ -6,9 +6,17 @@ name: Java CI with Maven
 on:
   push:
     branches: [ master ]
+    paths:
+      - '!.github/**'
+      - '!.script/**'
+      - '!README**'      
   pull_request:
     branches: [ master ]
-
+    paths:
+      - '!.github/**'    
+      - '!.script/**'
+      - '!README**'
+      
 jobs:
   build:
 
