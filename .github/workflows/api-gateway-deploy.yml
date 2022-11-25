@@ -68,7 +68,7 @@ jobs:
           action: deploy
           service-name: ${{ env.SPRING_APPS_SERVICE }}
           app-name: ${{ env.API_GATEWAY }}
-          use-staging-deployment: false
+          use-staging-deployment: true
           package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
           jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
           
@@ -91,3 +91,23 @@ jobs:
         max-attempts: 10
         retry-delay: 10s
         retry-all: true
+
+  production:    
+    name: "Production (Green)"
+    needs:
+    - staging
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Swap the slot
+      uses: azure/spring-cloud-deploy@v1
+      with:
+        azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+        action: set-production
+        service-name: ${{ env.SPRING_APPS_SERVICE }}
+        app-name:  ${{ env.API_GATEWAY }}
+        use-staging-deployment: true
