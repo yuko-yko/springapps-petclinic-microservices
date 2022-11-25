@@ -70,7 +70,7 @@ jobs:
           app-name: ${{ env.API_GATEWAY }}
           use-staging-deployment: false
           package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
-          jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql
+          jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
           
     - name: "Get Endpoint"
       id: get-endpoint     
@@ -85,8 +85,8 @@ jobs:
     - name: Check the deployed service health check
       uses: jtalk/url-health-check-action@v2
       with:
-        url: ${{ steps.get-endpoint.outputs.app-url }}/actuator/health
+        url: https://${{ steps.get-endpoint.outputs.app-url }}/actuator/health
         follow-redirect: true
-        max-attempts: 60
+        max-attempts: 10
         retry-delay: 10s
         retry-all: true
