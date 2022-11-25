@@ -74,7 +74,10 @@ jobs:
     - name: "Get Endpoint"
       id: get-endpoint      
       run: |
-        run: echo "app-url=$(az spring show -n ${{ env.SPRING_APPS_SERVICE }} --query "[properties.fqdn]" --output tsv)" >> $GITHUB_OUTPUT
+        run: 
+          az config set extension.use_dynamic_install=yes_without_prompt
+          az extension add --name spring
+          echo "app-url=$(az spring show -n ${{ env.SPRING_APPS_SERVICE }} --query "[properties.fqdn]" --output tsv)" >> $GITHUB_OUTPUT
 
     - name: Check the deployed service health check
       uses: jtalk/url-health-check-action@v2
