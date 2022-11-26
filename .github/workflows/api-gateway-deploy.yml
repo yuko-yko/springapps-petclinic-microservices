@@ -109,6 +109,7 @@ jobs:
       uses: azure/spring-cloud-deploy@v1
       with:
         azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+        resource-group-name: ${{ env.RESOURCE_GROUP }}
         action: set-production
         service-name: ${{ env.SPRING_APPS_SERVICE }}
         app-name:  ${{ env.API_GATEWAY }}
