@@ -70,7 +70,7 @@ jobs:
           service-name: ${{ env.SPRING_APPS_SERVICE }}
           app-name: ${{ env.API_GATEWAY }}
           # deployment-name: staging
-          use-staging-deployment: false
+          use-staging-deployment: true
           package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
           # jvm-options: -Dspring.profiles.active=mysql,azure          
           jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
