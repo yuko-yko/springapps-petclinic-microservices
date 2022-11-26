@@ -63,7 +63,7 @@ jobs:
       
     - name: "Deploy to Staging"
       id: deploy-to-springapps
-      uses: Azure/spring-cloud-deploy@v1
+      uses: Azure/spring-apps-deploy@v1
       with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: deploy
