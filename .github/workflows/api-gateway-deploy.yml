@@ -13,10 +13,9 @@ env:
   RESOURCE_GROUP: SPRING-APPS-RG2 # customize this
   KEYVAULT: spring-apps-vault # customize this
   # ==== APPS ====:
-  API_GATEWAY: admin-server # api-gateway
+  API_GATEWAY: api-gateway
   # ==== JARS ====:
-  API_GATEWAY_JAR: spring-petclinic-admin-server/target/spring-petclinic-admin-server-2.5.1.jar
-  # spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
+  API_GATEWAY_JAR: spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
 
 jobs:
   staging:
@@ -61,7 +60,17 @@ jobs:
     - name: Maven Build, Clean
       run: |
         mvn clean package -DskipTests -Denv=cloud
-      
+
+    - name: "Get inactive side deployment name"
+      id: show-inactive-side     
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+          az extension add --name spring
+          echo "deployment-name=$(az spring app deployment list --app ${{ env.API_GATEWAY }} \
+                                                                --query "[?properties.active == \`false\`].name" \
+                                                                --output tsv)" >> $GITHUB_OUTPUT
+          
     - name: "Deploy to Staging"
       id: deploy-to-springapps
       uses: azure/spring-apps-deploy@v1
@@ -70,7 +79,8 @@ jobs:
         action: deploy
         service-name: ${{ env.SPRING_APPS_SERVICE }}
         app-name: ${{ env.API_GATEWAY }}
-        use-staging-deployment: true
+        # use-staging-deployment: true
+        deployment-name:  ${{ steps.show-inactive-side.outputs.deployment-name }}
         package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}         
         jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
           
