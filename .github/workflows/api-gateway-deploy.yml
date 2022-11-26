@@ -19,6 +19,7 @@ env:
 
 jobs:
   staging:
+    name: "Staging (Blue)"
     runs-on: ubuntu-latest
     steps:
     - name: Login with Key Vault SP
