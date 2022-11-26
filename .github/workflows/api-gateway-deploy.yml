@@ -13,9 +13,10 @@ env:
   RESOURCE_GROUP: SPRING-APPS-RG2 # customize this
   KEYVAULT: spring-apps-vault # customize this
   # ==== APPS ====:
-  API_GATEWAY: api-gateway
+  API_GATEWAY: admin-server # api-gateway
   # ==== JARS ====:
-  API_GATEWAY_JAR: spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
+  API_GATEWAY_JAR: spring-petclinic-admin-server/target/spring-petclinic-admin-server-2.5.1.jar
+  # spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
 
 jobs:
   staging:
