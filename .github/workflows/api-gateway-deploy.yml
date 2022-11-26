@@ -61,7 +61,7 @@ jobs:
       run: |
         mvn clean package -DskipTests -Denv=cloud
 
-    - name: "Get inactive side deployment name"
+    - name: "Get Inactive Side Deployment Name"
       id: show-inactive-side     
       uses: Azure/cli@v1
       with:
