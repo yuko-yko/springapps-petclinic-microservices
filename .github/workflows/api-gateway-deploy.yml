@@ -57,7 +57,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - name: maven build, clean
+    - name: Maven Build, Clean
       run: |
         mvn clean package -DskipTests -Denv=cloud
       
