@@ -63,17 +63,15 @@ jobs:
       
     - name: "Deploy to Staging"
       id: deploy-to-springapps
-      uses: Azure/spring-apps-deploy@v1
+      uses: azure/spring-apps-deploy@v1
       with:
-          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
-          action: deploy
-          service-name: ${{ env.SPRING_APPS_SERVICE }}
-          app-name: ${{ env.API_GATEWAY }}
-          # deployment-name: staging
-          use-staging-deployment: true
-          package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
-          # jvm-options: -Dspring.profiles.active=mysql,azure          
-          jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
+        azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+        action: deploy
+        service-name: ${{ env.SPRING_APPS_SERVICE }}
+        app-name: ${{ env.API_GATEWAY }}
+        use-staging-deployment: true
+        package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}         
+        jvm-options: -Xms2048m -Xmx2048m -Dspring.profiles.active=mysql,azure
           
     - name: "Get Endpoint"
       id: get-endpoint     
