@@ -67,12 +67,13 @@ jobs:
       with:
         inlineScript: |
           az extension add --name spring
-          echo "deployment-name=$(az spring app deployment list --app ${{ env.API_GATEWAY }} \
-                                                                -s ${{ env.SPRING_APPS_SERVICE }} \
-                                                                -g ${{ env.RESOURCE_GROUP }} \          
-                                                                --query "[?properties.active == `false`].name\" \
-                                                                --output tsv)" >> $GITHUB_OUTPUT
-          
+          #echo "deployment-name=$(az spring app deployment list --app ${{ env.API_GATEWAY }} \
+          #                                                      -s ${{ env.SPRING_APPS_SERVICE }} \
+          #                                                      -g ${{ env.RESOURCE_GROUP }} \          
+          #                                                      --query "[?properties.active == `false`].name\" \
+          #                                                      --output tsv)" >> $GITHUB_OUTPUT
+          az spring app deployment list --app ${{ env.API_GATEWAY }} -s ${{ env.SPRING_APPS_SERVICE }} -g ${{ env.RESOURCE_GROUP }} --query "[?properties.active == `false`].name" --output tsv)" 
+
     - name: "Deploy to Staging"
       id: deploy-to-springapps
       uses: azure/spring-apps-deploy@v1
