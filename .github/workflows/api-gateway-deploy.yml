@@ -2,9 +2,9 @@ name: Deploy api-gateway to Azure Spring Apps
 on:
   push:
     branches:
-      - main
-    #paths:
-    #  - "spring-petclinic-api-gateway/**"
+      - master
+    paths:
+      - "spring-petclinic-api-gateway/**"
   workflow_dispatch:
   
 env:
