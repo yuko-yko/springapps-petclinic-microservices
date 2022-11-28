@@ -97,10 +97,28 @@ jobs:
     - name: Check the deployed service health check
       uses: jtalk/url-health-check-action@v2
       with:
-        url: ${{ steps.get-endpoint.outputs.app-url }}/actuator/health
+        url: ${{ steps.get-endpoint.outputs.app-url }}/${{ steps.show-inactive-side.outputs.deployment-name }}/actuator/health
         follow-redirect: true
         max-attempts: 10
         retry-delay: 10s
         retry-all: true
 
+  production:    
+    name: "Production (Green)"
+    needs:
+    - staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_APP }}
 
+      - name: Swap the slot
+        uses: azure/spring-cloud-deploy@v1
+        with:
+          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+          action: set-production
+          service-name: ${{ env.SPRING_APPS_SERVICE }}
+          app-name:  ${{ env.API_GATEWAY }}
+          use-staging-deployment: true
