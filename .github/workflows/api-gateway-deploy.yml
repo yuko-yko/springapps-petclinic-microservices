@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "spring-petclinic-api-gateway/**"
+    #paths:
+    #  - "spring-petclinic-api-gateway/**"
       
 env:
   AZURE_SUBSCRIPTION: c1d1be4e-2f5c-4bbc-ab97-a8e17b4b3cc6 # customize this
