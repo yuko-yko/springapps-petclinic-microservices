@@ -61,7 +61,7 @@
             <stringProp name="0">0</stringProp>
             <stringProp name="48">0</stringProp>
             <stringProp name="50547">300</stringProp>
-            <stringProp name="1629">30</stringProp>
+            <stringProp name="1629">30</stringProp>          
           </collectionProp>
         </collectionProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
