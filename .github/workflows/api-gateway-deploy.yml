@@ -3,6 +3,15 @@ on:
   # 手動実行用トリガー
   workflow_dispatch:
 
+env:
+  AZURE_SUBSCRIPTION: c1d1be4e-2f5c-4bbc-ab97-a8e17b4b3cc6 # customize this
+  SPRING_APPS_SERVICE: petclinic-spring-apps # customize this
+  RESOURCE_GROUP: SPRING-APPS-RG # customize this
+  # ==== APPS ====:
+  API_GATEWAY: api-gateway
+  # ==== JARS ====:
+  API_GATEWAY_JAR: spring-petclinic-api-gateway/target/spring-petclinic-api-gateway-2.5.1.jar
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,3 +37,20 @@ jobs:
     - name: Maven build, clean
       run: |
         mvn clean package -DskipTests -Denv=cloud
+
+
+    - name: Login with Service SP
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy api-gateway
+      uses: Azure/spring-cloud-deploy@v1
+      with:
+          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+          action: deploy
+          service-name: ${{ env.SPRING_APPS_SERVICE }}
+          app-name: ${{ env.API_GATEWAY }}
+          use-staging-deployment: false
+          package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
+          jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=azure    
