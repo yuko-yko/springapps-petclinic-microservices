@@ -101,7 +101,7 @@ jobs:
           echo "app-url=$(az spring test-endpoint list -n ${{ env.SPRING_APPS_SERVICE }} \
                                                        -g ${{ env.RESOURCE_GROUP }} \
                                                        --app ${{ env.API_GATEWAY }} \  
-                                                       -d ${{ steps.show-inactive-side.outputs.deployment-name }} 
+                                                       -d ${{ steps.show-inactive-side.outputs.deployment-name }} \
                                                        --query "[primaryTestEndpoint]" --output tsv)" >> $GITHUB_OUTPUT
 
     - name: Health check in Inactive Side
