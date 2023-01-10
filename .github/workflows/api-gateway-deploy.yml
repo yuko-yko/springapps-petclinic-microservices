@@ -77,6 +77,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: target-file
+        
+    - name: Display structure of downloaded files
+      run: ls -R
           
     - name: Deploy to Inactive Side
       id: deploy-to-springapps
