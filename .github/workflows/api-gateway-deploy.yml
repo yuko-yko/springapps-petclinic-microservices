@@ -77,9 +77,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: target-file
-        
-    - name: Display structure of downloaded files
-      run: ls -R
           
     - name: Deploy to Inactive Side
       id: deploy-to-springapps
@@ -90,7 +87,7 @@ jobs:
         service-name: ${{ env.SPRING_APPS_SERVICE }}
         app-name: ${{ env.API_GATEWAY }}
         deployment-name:  ${{ steps.show-inactive-side.outputs.deployment-name }}
-        package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
+        package: spring-petclinic-api-gateway-2.5.1.jar
         jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=mysql,azure
           
     - name: Get Endpoint
