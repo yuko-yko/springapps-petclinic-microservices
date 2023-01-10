@@ -35,7 +35,7 @@ jobs:
       with:
         inlineScript: |
           az extension add --name spring
-          echo "app-url=$(az spring test-endpoint list --name petclinic-spring-apps -g ${{ env.RESOURCE_GROUP }} --app ${{ env.API_GATEWAY }} -d production --query "[primaryTestEndpoint]" --output tsv" 
+          echo "app-url=$(az spring test-endpoint list --name petclinic-spring-apps -g ${{ env.RESOURCE_GROUP }} --app ${{ env.API_GATEWAY }} -d production --query "[primaryTestEndpoint]" --output tsv)" 
           # >> $GITHUB_OUTPUT      
         
     
