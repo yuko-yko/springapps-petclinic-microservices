@@ -24,6 +24,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Login with Service SP
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+    - name: Get Endpoint
+      id: get-endpoint-jotest     
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+          az extension add --name spring
+          echo "app-url=$(az spring test-endpoint list --name petclinic-spring-apps -g ${{ env.RESOURCE_GROUP }} --app ${{ env.API_GATEWAY }} -d production --query "[primaryTestEndpoint]" --output tsv" 
+          # >> $GITHUB_OUTPUT      
+        
+    
     - name: Checkout your repo
       uses: actions/checkout@v2
 
@@ -68,11 +83,9 @@ jobs:
       with:
         inlineScript: |
           az extension add --name spring
-          echo "app-url=$(az spring test-endpoint list -n ${{ env.SPRING_APPS_SERVICE }} \
-                                                       -g ${{ env.RESOURCE_GROUP }} \
-                                                       --app ${{ env.API_GATEWAY }} \  
-                                                       --deployment production \
-                                                       --query "[primaryTestEndpoint]" --output tsv)" >> $GITHUB_OUTPUT          
+          echo "app-url=$(az spring test-endpoint list --name petclinic-spring-apps -g ${{ env.RESOURCE_GROUP }} --app ${{ env.API_GATEWAY }} -d production --query "[primaryTestEndpoint]" --output tsv" >> $GITHUB_OUTPUT      
+                                                       
+    
     
     - name: "Get Inactive Side Name"
       id: show-inactive-side     
