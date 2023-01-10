@@ -87,8 +87,7 @@ jobs:
         service-name: ${{ env.SPRING_APPS_SERVICE }}
         app-name: ${{ env.API_GATEWAY }}
         deployment-name:  ${{ steps.show-inactive-side.outputs.deployment-name }}
-        # package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}         
-        package: ${{steps.download.outputs.download-path}}
+        package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
         jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=mysql,azure
           
     - name: Get Endpoint
