@@ -52,13 +52,16 @@ jobs:
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy api-gateway
-      uses: Azure/spring-cloud-deploy@v1
+  deploy: 
+    needs:
+    - build
+    runs-on: ubuntu-latest      
+    steps:    
+    - name: "Get Inactive Side Name"
+      id: show-inactive-side     
+      uses: Azure/cli@v1
       with:
-          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
-          action: deploy
-          service-name: ${{ env.SPRING_APPS_SERVICE }}
-          app-name: ${{ env.API_GATEWAY }}
-          use-staging-deployment: false
-          package: ${{ github.workspace }}/${{ env.API_GATEWAY_JAR }}
-          jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=azure    
+        inlineScript: |
+          az extension add --name spring
+          name=$(az spring app deployment list --app ${{ env.API_GATEWAY }} -s ${{ env.SPRING_APPS_SERVICE }} -g ${{ env.RESOURCE_GROUP }} --query "[?properties.active == \`false\`].name" --output tsv)
+          echo "deployment-name=$name" >> $GITHUB_OUTPUT
