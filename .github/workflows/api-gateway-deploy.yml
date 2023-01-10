@@ -71,7 +71,7 @@ jobs:
           echo "app-url=$(az spring test-endpoint list -n ${{ env.SPRING_APPS_SERVICE }} \
                                                        -g ${{ env.RESOURCE_GROUP }} \
                                                        --app ${{ env.API_GATEWAY }} \  
-                                                       --deployment "production" \
+                                                       --deployment production \
                                                        --query "[primaryTestEndpoint]" --output tsv)" >> $GITHUB_OUTPUT          
     
     - name: "Get Inactive Side Name"
