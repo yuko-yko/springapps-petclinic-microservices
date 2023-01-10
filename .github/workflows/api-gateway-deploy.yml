@@ -90,8 +90,6 @@ jobs:
         package: spring-petclinic-api-gateway-2.5.1.jar
         jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=mysql,azure
 
-    - run: echo ${{steps.deploy-to-springapps.outputs}} 
-      
     - name: Get Endpoint
       id: get-endpoint     
       uses: Azure/cli@v1
