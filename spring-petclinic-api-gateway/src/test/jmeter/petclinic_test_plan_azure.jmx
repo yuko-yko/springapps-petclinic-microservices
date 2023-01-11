@@ -27,7 +27,7 @@
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables pr�-d�finies" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
-        <stringProp name="HTTPSampler.domain">${__BeanShell( System.getenv(PETCLINC_HOST) )}</stringProp>
+        <stringProp name="HTTPSampler.domain">${PETCLINC_HOST}</stringProp>
         <stringProp name="HTTPSampler.port"></stringProp>
         <stringProp name="HTTPSampler.protocol">https</stringProp>
         <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -56,11 +56,11 @@
       <hashTree/>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-111815413">
+          <collectionProp name="-1406943384">
             <stringProp name="49">2</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="50547">${__BeanShell( System.getenv(RUN_INTERVAL) )}</stringProp>
+            <stringProp name="50547">${RUN_INTERVAL}</stringProp>
             <stringProp name="1629">30</stringProp>
           </collectionProp>
         </collectionProp>
@@ -563,6 +563,21 @@
         </ResultCollector>
         <hashTree/>
       </hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="PETCLINC_HOST" elementType="Argument">
+            <stringProp name="Argument.name">PETCLINC_HOST</stringProp>
+            <stringProp name="Argument.value">${__BeanShell( System.getenv("PETCLINC_HOST") )}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="RUN_INTERVAL" elementType="Argument">
+            <stringProp name="Argument.name">RUN_INTERVAL</stringProp>
+            <stringProp name="Argument.value">${__BeanShell( System.getenv("RUN_INTERVAL") )}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
