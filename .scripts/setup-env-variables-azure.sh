@@ -21,15 +21,15 @@ export VETS_SERVICE_JAR=spring-petclinic-vets-service/target/spring-petclinic-ve
 export VISITS_SERVICE_JAR=spring-petclinic-visits-service/target/spring-petclinic-visits-service-2.5.1.jar
 
 # ==== MYSQL INFO ====
-export MYSQL_SERVER_NAME=petclinic-mysql # customize this
-export MYSQL_SERVER_FULL_NAME=${MYSQL_SERVER_NAME}.mysql.database.azure.com
-export MYSQL_SERVER_ADMIN_NAME=admin-user # customize this
-export MYSQL_SERVER_ADMIN_LOGIN_NAME=${MYSQL_SERVER_ADMIN_NAME}\@${MYSQL_SERVER_NAME}
-export MYSQL_SERVER_ADMIN_PASSWORD=SuperS3cr3t # customize this
-export MYSQL_DATABASE_NAME=petclinic
+# export MYSQL_SERVER_NAME=petclinic-mysql # customize this
+# export MYSQL_SERVER_FULL_NAME=${MYSQL_SERVER_NAME}.mysql.database.azure.com
+# export MYSQL_SERVER_ADMIN_NAME=admin-user # customize this
+# export MYSQL_SERVER_ADMIN_LOGIN_NAME=${MYSQL_SERVER_ADMIN_NAME}\@${MYSQL_SERVER_NAME}
+# export MYSQL_SERVER_ADMIN_PASSWORD=SuperS3cr3t # customize this
+# export MYSQL_DATABASE_NAME=petclinic
 
 # ==== KEY VAULT Info ====
-export KEY_VAULT=spring-apps-vault # customize this
+# export KEY_VAULT=spring-apps-vault # customize this
 
 # ==== LOG ANALYTICS Info ====
 export LOG_ANALYTICS=${SPRING_APPS_SERVICE}
