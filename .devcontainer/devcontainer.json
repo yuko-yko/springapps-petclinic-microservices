@@ -23,6 +23,11 @@
 
   // Configure tool-specific properties.
   "customizations": {
+    "codespaces": {
+      "extensions": [
+        "vscjava.vscode-azurespringcloud"
+      ]
+    },
     "vscode": {
       "extensions": [
         "vscjava.vscode-azurespringcloud"
