@@ -70,3 +70,38 @@ jobs:
           name=$(az spring app deployment list --app ${{ env.API_GATEWAY }} -s ${{ env.SPRING_APPS_SERVICE }} -g ${{ env.RESOURCE_GROUP }} --query "[?properties.active == \`false\`].name" --output tsv)
           echo "deployment-name=$name"
           echo "deployment-name=$name" >> $GITHUB_OUTPUT
+
+    - name: Download jar file
+      id: download
+      uses: actions/download-artifact@v3
+      with:
+        name: target-file
+          
+    - name: Deploy to Inactive Side
+      id: deploy-to-springapps
+      uses: azure/spring-apps-deploy@v1
+      with:
+        azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+        action: deploy
+        service-name: ${{ env.SPRING_APPS_SERVICE }}
+        app-name: ${{ env.API_GATEWAY }}
+        deployment-name:  ${{ steps.show-inactive-side.outputs.deployment-name }}
+        package: spring-petclinic-api-gateway-2.5.1.jar
+        jvm-options: -Xms1024m -Xmx1024m -Dspring.profiles.active=mysql,azure
+
+    - name: Get Endpoint
+      id: get-endpoint     
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+          az extension add --name spring
+          echo "app-url=$(az spring test-endpoint list --name ${{ env.SPRING_APPS_SERVICE }} -g ${{ env.RESOURCE_GROUP }} --app ${{ env.API_GATEWAY }} -d  ${{ steps.show-inactive-side.outputs.deployment-name }} --query "[primaryTestEndpoint]" --output tsv)" >> $GITHUB_OUTPUT      
+
+    - name: Health check in Inactive Side
+      uses: jtalk/url-health-check-action@v2
+      with:
+        url: ${{ steps.get-endpoint.outputs.app-url }}api/customer/owners
+        follow-redirect: true
+        max-attempts: 10
+        retry-delay: 10s
+        retry-all: true
